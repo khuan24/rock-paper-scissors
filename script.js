@@ -81,9 +81,12 @@ let score = 0
 function game() {
     // player 5 rounds
     for (let i=0; i<5; i++) {
+        // get player choice
         const playerSelection = prompt('What would you like to play?')
+        // get computer choice
         const computerSelection = getComputerChoice()
-    
+        
+        // output the result
         console.log(playRound(playerSelection, computerSelection))
         console.log("The score is " + score)
     }
