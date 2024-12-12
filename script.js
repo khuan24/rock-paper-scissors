@@ -1,3 +1,14 @@
+let humanScore = 0
+let computerScore = 0
+
+const buttons = document.querySelectorAll("button")
+
+const gamePrompt = document.querySelector(".prompt")
+const humanScoreboard = document.querySelector(".human-score")
+const computerScoreboard = document.querySelector(".computer-score")
+const humanChoice = document.querySelector(".human-choice")
+const computerChoice = document.querySelector(".computer-choice")
+
 function getComputerChoice() {
     // randomly return rock, paper, or scissors
     const choices = ['Rock', 'Paper', 'Scissors']
@@ -7,7 +18,50 @@ function getComputerChoice() {
 }
 
 function getHumanChoice() {
-    // from button press
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => {
+            playRound(button.textContent.toLowerCase(), getComputerChoice())
+        })
+    })
+ }
+
+ function playRound(playerSelection, computerSelection) {
+    // upates prompt that declares the winner of the round
+    // console.log("playing the game...")
+
+    let outcome = ''
+
+    if (computerSelection == 'Rock') {
+        outcome = fightRock(playerSelection)
+    } else if (computerSelection == 'Scissors') {
+        outcome = fightScissor(playerSelection)
+    } else if (computerSelection == 'Paper') {
+        outcome = fightPaper(playerSelection)
+    }
+
+    let message = 'You ' + outcome + '! '
+    
+    if (outcome == 'win') {
+        message += playerSelection + ' beats ' + computerSelection
+        humanScore += 1
+    } else if (outcome == 'lose') {
+        message += computerSelection + ' beats ' + playerSelection
+        computerScore += 1
+    } else if (outcome == 'tie') {
+        message += playerSelection + ' is the same as ' + computerSelection
+    } else {
+        message += 'Something is causing an error.'
+    }
+
+    gamePrompt.textContent = message
+    humanChoice.textContent = playerSelection.charAt(0).toUpperCase() + playerSelection.substring(1)
+    computerChoice.textContent = computerSelection
+    humanScoreboard.textContent = humanScore
+    computerScoreboard.textContent = computerScore
+
+    if (humanScore == 5 || computerScore == 5) {
+        stopGame()
+    }
 }
 
 function fightRock(playerSelection) {
@@ -46,57 +100,48 @@ function fightPaper(playerSelection) {
     }
 }
 
-function playRound(playerSelection, computerSelection) {
-    // return a string that declares the winner of the round
-    // console.log("playing the game...")
+function stopGame() {
+    let finalOutcome = ""
 
-    // may need to check for null inputs before conversion
-    const player = playerSelection.toLowerCase()
-    const computer = computerSelection.toLowerCase()
-
-    let outcome = ''
-
-    if (computer == 'rock') {
-        outcome = fightRock(player)
-    } else if (computer == 'scissors') {
-        outcome = fightScissor(player)
-    } else if (computer == 'paper') {
-        outcome = fightPaper(player)
-    }
-
-    let message = 'You ' + outcome + '! '
-    
-    if (outcome == 'win') {
-        message += playerSelection + ' beats ' + computerSelection
-        humanScore += 1
-    } else if (outcome == 'lose') {
-        message += computerSelection + ' beats ' + playerSelection
-        computerScore += 1
-    } else if (outcome == 'tie') {
-        message += playerSelection + ' is the same as ' + computerSelection
+    if (humanScore>computerScore) {
+        finalOutcome = "You're the winner!"
     } else {
-        message += 'Something is causing an error.'
+        finalOutcome = "You lost. Restart the game to try again!"
     }
+    
+    gamePrompt.textContent = finalOutcome
+    
+    buttons.forEach((button) => {
+        button.style.display = "none"
+    })
 
-    return message
+    const replayBtn = document.createElement("button")
+    replayBtn.textContent = "REPLAY"
+    container = document.querySelector(".choice-container")
+    container.appendChild(replayBtn)
+
+    replayBtn.addEventListener("click", () => {
+        replayBtn.style.display = "none"
+        restartGame()
+    })
 }
 
-let humanScore = 0
-let computerScore = 0
+function restartGame() {
+    humanScore = 0
+    computerScore = 0
+    
+    humanScoreboard.textContent = humanScore
+    computerScoreboard.textContent = computerScore
 
-function playGame() {
-    // play until one side reaches 5 points
-    while (humanScore < 5 && computerScore < 5) {
-        // get player choice - change to event listener?
-        const playerSelection = getHumanChoice()
-        // get computer choice
-        const computerSelection = getComputerChoice()
-        
-        // output the result
-        console.log(playRound(playerSelection, computerSelection))
-        console.log("Your score is " + humanScore + ", and the computer score is " + computerScore)
-    }
+    humanChoice.textContent = ""
+    computerChoice.textContent = ""
 
+    buttons.forEach((button) => {
+        button.style.display = "block"
+    })
+
+    gamePrompt.textContent = "Waiting for your choice..."
+    gamePrompt.style.animationPlayState = "running"
 }
 
-playGame()
+getHumanChoice()
