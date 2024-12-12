@@ -55,6 +55,17 @@ div {
     color: #404040;
 }
 
+.prompt {
+    animation: blinker 3s linear infinite;
+    /* animation-play-state: paused; */
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
 .scoreboard {
     padding-top: 0px;
     padding-bottom: 0px;
@@ -68,9 +79,13 @@ div {
 .human, .computer {
     display: flex;
     flex-direction: column;
+    gap: 15px;
+    background-color: #545454;
+    width: 200px;
+    border-radius: 20px;
 }
 
-.human-score, .computer-score {
+.human div, .computer div {
     padding: 0px 0px;
 }
 
