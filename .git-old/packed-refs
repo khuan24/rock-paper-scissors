@@ -1,5 +1,0 @@
-# pack-refs with: peeled fully-peeled sorted 
-5c402e48b12c192757ca3093e6d7508ac482b718 refs/heads/main
-e63c7f7cb6167498cac0f35f552b62a5c6379b95 refs/heads/rps-ui
-5c402e48b12c192757ca3093e6d7508ac482b718 refs/remotes/origin/main
-5c402e48b12c192757ca3093e6d7508ac482b718 refs/remotes/origin/rps-ui
