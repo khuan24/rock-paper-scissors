@@ -6,6 +6,10 @@ function getComputerChoice() {
     return choices[random]
 }
 
+function getHumanChoice() {
+    // from button press
+}
+
 function fightRock(playerSelection) {
     if (playerSelection == 'rock') {
         return 'tie'
@@ -64,9 +68,10 @@ function playRound(playerSelection, computerSelection) {
     
     if (outcome == 'win') {
         message += playerSelection + ' beats ' + computerSelection
-        score += 1
+        humanScore += 1
     } else if (outcome == 'lose') {
         message += computerSelection + ' beats ' + playerSelection
+        computerScore += 1
     } else if (outcome == 'tie') {
         message += playerSelection + ' is the same as ' + computerSelection
     } else {
@@ -76,21 +81,22 @@ function playRound(playerSelection, computerSelection) {
     return message
 }
 
-let score = 0
+let humanScore = 0
+let computerScore = 0
 
-function game() {
-    // player 5 rounds
-    for (let i=0; i<5; i++) {
-        // get player choice
-        const playerSelection = prompt('What would you like to play?')
+function playGame() {
+    // play until one side reaches 5 points
+    while (humanScore < 5 && computerScore < 5) {
+        // get player choice - change to event listener?
+        const playerSelection = getHumanChoice()
         // get computer choice
         const computerSelection = getComputerChoice()
         
         // output the result
         console.log(playRound(playerSelection, computerSelection))
-        console.log("The score is " + score)
+        console.log("Your score is " + humanScore + ", and the computer score is " + computerScore)
     }
 
 }
 
-game()
+playGame()
